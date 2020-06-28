@@ -14,4 +14,5 @@ require (
 	golang.org/x/net v0.0.0-20190311183353-d8887717615a
 	google.golang.org/grpc v1.26.0
 	gotest.tools v2.2.0+incompatible
+	github.com/stretchr/testify v1.6.1
 )
