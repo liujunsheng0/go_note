@@ -43,15 +43,15 @@ func TestNil(t *testing.T) {
 	assert.Equal(t, false, i3 == nil)
 	assert.Equal(t, false, i4 == nil)
 
-	// reflect.ValueOf(i1).IsNil() 类型错误会抛出异常
+	// reflect.ValueOf(i1).IsNilPointer() 类型错误会抛出异常
 	// 判断是否为空接口的正确方法如下
-	assert.Equal(t, true, IsNil(nil))
-	assert.Equal(t, true, IsNil(i1))
-	assert.Equal(t, true, IsNil(i2))
-	assert.Equal(t, false, IsNil(i3))
-	assert.Equal(t, false, IsNil(i4))
-	assert.Equal(t, false, IsNil(1))
-	assert.Equal(t, false, IsNil("1"))
-	assert.Equal(t, false, IsNil(1.1))
+	assert.Equal(t, true, IsNilPointer(nil))
+	assert.Equal(t, true, IsNilPointer(i1))
+	assert.Equal(t, true, IsNilPointer(i2))
+	assert.Equal(t, false, IsNilPointer(i3))
+	assert.Equal(t, false, IsNilPointer(i4))
+	assert.Equal(t, false, IsNilPointer(1))
+	assert.Equal(t, false, IsNilPointer("1"))
+	assert.Equal(t, false, IsNilPointer(1.1))
 
 }

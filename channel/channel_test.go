@@ -221,6 +221,7 @@ func TestDirectionOfChannel(t *testing.T) {
 //	  如果多个可以处理, 随机选择一个
 //    如果没有通道操作可以处理并且写了 default 语句, 它就会执行default语句, default永远是可运行的
 //    如果多个case没有能处理的, select会一直阻塞
+//    关闭的channel, 直接执行, 多个关闭的channel时, 在前面的先执行
 func TestSelect(t *testing.T) {
 	ch1 := make(chan int)
 	ch2 := make(chan string)
@@ -238,7 +239,8 @@ func TestSelect(t *testing.T) {
 	}()
 
 	fmt.Println("ch1  ch2")
-	for {
+	ok := true
+	for ok {
 		select {
 		case v := <-ch1:
 			fmt.Println("", v)
@@ -247,7 +249,59 @@ func TestSelect(t *testing.T) {
 		case <-time.After(3 * time.Second):
 			close(ch1)
 			close(ch2)
-			return
+			ok = false
 		}
 	}
+
+	fmt.Println("=======")
+	select {
+	case v := <-ch1:
+		fmt.Println("ch1 default", v)
+	case v := <-ch2:
+		fmt.Println("ch2 default", v)
+	default:
+		fmt.Println("default")
+
+	}
+}
+
+// channel 倒序打印1,2,3,4,5,6
+func TestFunc(t *testing.T) {
+	n := 10
+	ch := make(chan int, 10)
+
+	for i := 0; i < n; i++ {
+		ch <- i
+	}
+	close(ch)
+
+	for i := range ch {
+		defer func(i int) { fmt.Println(i) }(i)
+	}
+}
+
+// channel 倒序打印1,2,3,4,5,6
+func TestFunc1(t *testing.T) {
+	n := 10
+	ch1 := make(chan int, 10)
+	ch2 := make(chan int, 10)
+
+	for i := 0; i < n; i++ {
+		if i%2 == 1 {
+			ch1 <- i
+		} else {
+			ch2 <- i
+		}
+	}
+	close(ch1)
+	close(ch2)
+
+	for i := range ch1 {
+		fmt.Printf("%v ", i)
+	}
+	fmt.Println()
+	for i := range ch2 {
+		fmt.Printf("%v ", i)
+	}
+	fmt.Println()
 }

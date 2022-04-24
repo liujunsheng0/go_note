@@ -2,6 +2,7 @@ package map_
 
 import (
 	"fmt"
+	"math"
 	"sort"
 	"testing"
 
@@ -11,6 +12,8 @@ import (
 var (
 	m = map[int]string{1: "one", 2: "two"}
 )
+
+// 底层结构: https://segmentfault.com/a/1190000023879178 map: Go语言采用的是哈希查找表, 并且使用链表解决哈希冲突.
 
 // 在声明的时候不需要知道 map 的长度, map 是可以动态增长的
 // 声明: var varName[key]value 引用类型
@@ -97,4 +100,24 @@ func TestSwapKV(t *testing.T) {
 	for k, v := range m {
 		assert.Equal(t, k, a[v])
 	}
+}
+
+func TestFloatMap(t *testing.T) {
+	m := make(map[float64]int)
+	m[1.4] = 1
+	m[2.4] = 2
+	m[math.NaN()] = 3
+	m[math.NaN()] = 3
+
+	for k, v := range m {
+		t.Logf("[%v, %d] ", k, v)
+	}
+
+	// 当用 float64 作为 key 的时候, 先要将其转成 unit64 类型, 再插入 key 中. 具体是通过 Float64frombits 函数完成
+	// 精度丢失, 导致浮点数作为key时, 查找和删除会不准
+	t.Logf("\nk: %v, v: %d\n", math.NaN(), m[math.NaN()])
+	t.Logf("k: %v, v: %d\n", 2.400000000001, m[2.400000000001])
+	t.Logf("k: %v, v: %d\n", 2.4000000000000000000000001, m[2.4000000000000000000000001])
+
+	t.Log(math.NaN() == math.NaN())
 }

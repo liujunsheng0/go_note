@@ -3,7 +3,7 @@ package nil
 import "reflect"
 
 // 判断接口是否为空指针的正确方法
-func IsNil(i interface{}) bool {
+func IsNilPointer(i interface{}) bool {
 	if i == nil {
 		return true
 	}
