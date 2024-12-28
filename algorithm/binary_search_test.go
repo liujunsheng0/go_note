@@ -31,7 +31,7 @@ func RecoverRotatedSortedArray(nums []int) []int {
 
 func TestRecoverRotatedSortedArray(t *testing.T) {
 	ar := assert.New(t)
-	arr := []int{1, 2, 3, 5}
+	arr := []int{1, 2, 3, 4}
 	ar.Equal(arr, RecoverRotatedSortedArray([]int{4, 1, 2, 3}))
 	ar.Equal(arr, RecoverRotatedSortedArray([]int{3, 4, 1, 2}))
 	ar.Equal(arr, RecoverRotatedSortedArray([]int{2, 3, 4, 1}))

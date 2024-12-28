@@ -28,5 +28,8 @@ func TestRecover(t *testing.T) {
 			t.Log(err)
 		}
 	}()
+	defer func() {
+		t.Log("1")
+	}()
 	panic("test raise exception")
 }

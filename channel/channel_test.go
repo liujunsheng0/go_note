@@ -19,6 +19,12 @@ func TestInit(t *testing.T) {
 
 	assert.Equal(t, true, reflect.ValueOf(ch1).IsNil())
 	assert.Equal(t, false, reflect.ValueOf(ch2).IsNil())
+	//ch1 <- 1
+	//fmt.Println(<-ch1)
+	close(ch2)
+	ch2 <- 1
+	<-ch2
+
 }
 
 // 通信操作符 <-, 信息按照箭头的方向流动
@@ -116,7 +122,7 @@ func TestClose(t *testing.T) {
 	recvFromCloseChan := func() {
 		ch := make(chan int)
 		close(ch)
-		for times := 0; times < 10; {
+		for times := 0; times < 3; {
 			select {
 			// v, ok := <- channel
 			// 未关闭chan  阻塞等待值  v=接收的值    ok=true
@@ -147,6 +153,7 @@ func TestClose(t *testing.T) {
 		recv = append(recv, v)
 	}
 	t.Log("recv", recv)
+	t.Log("recv", <-ch)
 }
 
 // 判断通道是否关闭

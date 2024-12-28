@@ -39,7 +39,7 @@ func IsClosed(ch interface{}) bool {
 	// **
 
 	ptr += unsafe.Sizeof(uint(0)) * 2
-	ptr += unsafe.Sizeof(unsafe.Pointer(uintptr(0)))
+	ptr += unsafe.Sizeof(uintptr(0))
 	ptr += unsafe.Sizeof(uint16(0))
 	return *(*uint32)(unsafe.Pointer(ptr)) > 0
 }
@@ -56,4 +56,8 @@ func Receive(ch chan int) (int, bool, bool) {
 	case <-time.After(5 * time.Millisecond):
 		return 0, true, true
 	}
+}
+func Receive2(ch chan int) (int, bool) {
+	v, ok := <-ch
+	return v, ok
 }

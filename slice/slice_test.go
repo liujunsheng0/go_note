@@ -93,3 +93,9 @@ func TestAppend(t *testing.T) {
 	// 5 * sizeof(int) = 40, 需要分配到48byte内存管理部分, 所以newCap = 6
 	ar.Equal(cap(s), 6)
 }
+
+func BenchmarkName(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+
+	}
+}

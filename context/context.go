@@ -8,8 +8,7 @@ import (
 )
 
 type Context interface {
-	// Deadline 截止时间, 到了此时间时, context应该被cancel
-	// 未设置截止时间时, ok = false
+	// Deadline 截止时间, 到了此时间时, context应该被cancel, 未设置截止时间时, ok = false
 	Deadline() (deadline time.Time, ok bool)
 
 	// Done 返回channel, 当context取消或过期时, channel是关闭的.
